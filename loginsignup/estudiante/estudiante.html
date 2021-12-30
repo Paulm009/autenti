@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Page Title</title>
+  <link rel="stylesheet" type="text/css" href="estilos.css">
+  <link rel="stylesheet" type="text/css" href="navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <nav>
+      <input type="checkbox" id="show-search">
+      <input type="checkbox" id="show-menu">
+      <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+      <div class="content">
+        <div class="logo"><a href="#">Diagramas</a></div>
+        <ul class="links">
+          <li><a onclick="myFunction()">Crear clase</a>
+            <dialog open>esto es moda
+            </dialog>
+          </li>
+          <li><a href="videos.html">asociacion</a></li>
+          <li>
+            <a href="index.html#Bibliografia">herencia</a>
+          </li>
+          <li>
+            <a onclick="Guardar()">Guardar</a>
+          </li>
+
+
+        </ul>
+      </div>
+
+
+
+
+    </nav>
+  </div>
+
+
+
+
+
+
+
+  <div id="svg54583"></div>
+
+  <script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+
+    function dataURLtoFile(dataurl, filename) {
+      var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type: mime });
+    }
+
+    function Guardar() {
+      html2canvas(document.querySelector("#svg54583")).then(canvas => {
+        var canvasContents = canvas.toDataURL(); // a data URL of the current canvas image
+
+        //Para guardar como archivo
+        let file = dataURLtoFile(canvasContents, "diagrama.png");
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(file);
+        a.download = 'diagrama.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+      });
+    }
+
+    function myFunction() {
+
+      const SVG_NS = "http://www.w3.org/2000/svg";
+      let svg1 = {
+        width: 200,
+        height: 100
+      };
+
+      let rect = {
+        width: 200,
+        height: 100,
+        fill: "none"
+      };
+
+      let drag = null;
+      let listSvg = [];
+      let distMouseSvg = {};
+      let mousePosicion = {};
+
+      function createSVGElement(o, elmtName, parent) {
+        var elmt = document.createElementNS(SVG_NS, elmtName);
+        for (var name in o) {
+          if (o.hasOwnProperty(name)) {
+
+            elmt.setAttributeNS(null, name, o[name]);
+          }
+        }
+        parent.appendChild(elmt);
+        return elmt;
+      }
+
+      let firstsvg = createSVGElement(svg1, "svg", svg54583);
+      let firstRect = createSVGElement(rect, "rect", firstsvg);
+
+
+      listSvg.push(firstsvg);
+
+
+
+      listSvg.forEach((svg, i) => {
+        svg.addEventListener("mousedown", evt => {
+
+          drag = i + 1;
+          let pos = svg.getBoundingClientRect();
+
+          distMouseSvg.x = evt.clientX - pos.x;
+          distMouseSvg.y = evt.clientY - pos.y;
+        });
+      });
+
+      svg54583.addEventListener("mousemove", evt => {
+        if (drag) {
+          mausePosicion = oMousePos(svg54583, evt);
+          listSvg[drag - 1].style.left = mausePosicion.x - distMouseSvg.x + "px";
+          listSvg[drag - 1].style.top = mausePosicion.y - distMouseSvg.y + "px";
+        }
+      });
+
+      svg54583.addEventListener("mouseup", evt => {
+        drag = null;
+      });
+
+      function oMousePos(elmt, evt) {
+        var ClientRect = elmt.getBoundingClientRect();
+        return {
+          //objeto
+          x: Math.round(evt.clientX - ClientRect.left),
+          y: Math.round(evt.clientY - ClientRect.top)
+        };
+      }
+    }
+  </script>
+
+
+
+</body>
+
+</html>

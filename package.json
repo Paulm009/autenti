@@ -1,0 +1,22 @@
+{
+  "name": "paul",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "@prisma/client": "3.7.0",
+    "body-parser": "1.19.1",
+    "express": "4.17.2",
+    "prisma": "^3.7.0",
+    "xpress": "^2.4.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
